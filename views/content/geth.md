@@ -14,14 +14,11 @@ In order to navigate the Frontier, you’ll need to use the command line. If you
 
 The Frontier tool is called Geth (the old english third person singular conjugation of “to go”. Quite appropriate given geth is written in Go). In order to get it, open your command line tool (if you are unsure how to do this, consider waiting for a more user friendly release) and paste the command below. 
 
-    ## future link: bash <(curl https://install-geth.ethereum.org)  
+    bash <(curl https://install-geth.ethereum.org)  
 
-    bash <(curl https://raw.githubusercontent.com/ethereum/frontier-release/master/bin/install.sh)
-
-
-(old script)
+(old script - remove this when the above is tested)
     
-    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/ethereum/frontier.ethereum.org/master/bin/install.rb)"
+    bash <(curl https://raw.githubusercontent.com/ethereum/frontier-release/master/bin/install.sh)
 
 Paste the above one-liner in your terminal for an automated install script. This script will detect your OS and will attempt to install the ethereum CLI. 
 

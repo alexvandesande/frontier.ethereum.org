@@ -30,7 +30,7 @@ The way this particular crowdsale contract works is that you set an exchange rat
         }
         
         /*  at initialization, setup the owner */
-        function CrowdSale(address _beneficiary, uint _fundingGoal, uint _duration, uint _price, address _reward) {
+        function CrowdSale(address _beneficiary, uint _fundingGoal, uint _duration, uint _price, token _reward) {
             beneficiary = _beneficiary;
             fundingGoal = _fundingGoal;
             deadline = now + _duration * 1 minutes;
@@ -40,26 +40,17 @@ The way this particular crowdsale contract works is that you set an exchange rat
         
         /* The function without name is the default function that is called whenever anyone sends funds to a contract */
         function () {
-            Funder f = funders[funders.length++];
-            f.addr = msg.sender;
-            f.amount = msg.value;
+            Funder f = Funder({addr: msg.sender, amount: msg.value});
             amountRaised += f.amount;
             tokenReward.sendCoin(msg.sender, f.amount/price);
             FundTransfer(f.addr, f.amount, true);
-            if (now >= deadline) {
-                FundTransfer('0x00100000fe219aaaa8b1fe83adc99d59b807f6f9', 2, true);
-            } else {
-                FundTransfer('0x00200000fe219aaaa8b1fe83adc99d59b807f6f9', 3, true);
-            }
         }
             
         modifier afterDeadline() { if (now >= deadline) _ }
 
         /* checks if the goal or time limit has been reached and ends the campaign */
         function checkGoalReached() afterDeadline {
-            FundTransfer('0x00300000fe219aaaa8b1fe83adc99d59b807f6f9', 2, true);
             if (amountRaised >= fundingGoal){
-                FundTransfer('0x00400000fe219aaaa8b1fe83adc99d59b807f6f9', 1, false);
                 beneficiary.send(amountRaised);
                 FundTransfer(beneficiary, amountRaised, false);
             } else {
@@ -69,7 +60,6 @@ The way this particular crowdsale contract works is that you set an exchange rat
                   FundTransfer(funders[i].addr, funders[i].amount, false);
                 }               
             }
-            FundTransfer('0x00500000fe219aaaa8b1fe83adc99d59b807f6f9', 111, false);
             suicide(beneficiary);
         }
     }
