@@ -8,11 +8,13 @@ But what it can do is to gather support around a united cause. You will get fund
 
 So let's start now.
 
+
 **Important: Frontier is considered a test network. All contracts might be wiped when the project transitions to the next phase, and all ether they contain will be lost. Only send small amounts of funds to contracts, unless are okay losing them.**
+
+[Learn more about contracts](https://github.com/ethereum/go-ethereum/wiki/Contracts-and-Transactions)
 
 ## Your first citizen: the greeter
 
-[Full documentation](https://github.com/ethereum/go-ethereum/wiki/Contracts-and-Transactions)
 
 
 Now that you’ve mastered the basics of Ethereum, let’s move into your first serious contract. It’s a big open territory and sometimes you might feel lonely, so our first order of business will be to create a little automatic companion to greet you whenever you feel lonely. We’ll call him the “Greeter”.

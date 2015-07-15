@@ -13,6 +13,8 @@ In a crowdfunding prizes are usually given. This would require you to get everyo
 The way this particular crowdsale contract works is that you set an exchange rate for your token and then the donors will immediatly get a proportional amount of tokens in exchange of their ether. You will also choose a funding goal and a deadline: once that deadline is over you can ping the contract and if the goal was reached it will send the ether raised to you, otherwise it goes back to the donors. Donors keep their tokens even if the project doesnt reach it's goal, as a proof that they helped.
 
     
+    
+    
     contract token { mapping (address => uint) public coinBalanceOf; function token() {}  function sendCoin(address receiver, uint amount) returns(bool sufficient) {  } }
     
     contract CrowdSale {
@@ -40,7 +42,9 @@ The way this particular crowdsale contract works is that you set an exchange rat
         
         /* The function without name is the default function that is called whenever anyone sends funds to a contract */
         function () {
-            Funder f = Funder({addr: msg.sender, amount: msg.value});
+            Funder f = funders[++funders.length];
+            f.addr = msg.sender;
+            f.amount = msg.value;
             amountRaised += f.amount;
             tokenReward.sendCoin(msg.sender, f.amount/price);
             FundTransfer(f.addr, f.amount, true);
@@ -67,7 +71,7 @@ The way this particular crowdsale contract works is that you set an exchange rat
 You know the drill. [Remove line breaks](http://www.textfixer.com/tools/remove-line-breaks.php) and copy the following commands on the terminal:
 
 
-    var crowdsaleCompiled = eth.compile.solidity('contract token { mapping (address => uint) public coinBalanceOf; function token() {} function sendCoin(address receiver, uint amount) returns(bool sufficient) { } } contract CrowdSale { address public beneficiary; uint public fundingGoal; uint public amountRaised; uint public deadline; uint public price; token public tokenReward; Funder[] public funders; event FundTransfer(address backer, uint amount, bool isContribution); /* data structure to hold information about campaign contributors */ struct Funder { address addr; uint amount; } /* at initialization, setup the owner */ function CrowdSale(address _beneficiary, uint _fundingGoal, uint _duration, uint _price, address _reward) { beneficiary = _beneficiary; fundingGoal = _fundingGoal; deadline = now + _duration * 1 minutes; price = _price; tokenReward = token(_reward); } /* The function without name is the default function that is called whenever anyone sends funds to a contract */ function () { Funder f = funders[funders.length++]; f.addr = msg.sender; f.amount = msg.value; amountRaised += f.amount; tokenReward.sendCoin(msg.sender, f.amount/price); FundTransfer(f.addr, f.amount, true); } modifier afterDeadline() { if (now >= deadline) _ } /* checks if the goal or time limit has been reached and ends the campaign */ function checkGoalReached() afterDeadline { /* if goal not met, pay back backers */ if (amountRaised < fundingGoal) { for (uint i = 0; i < funders.length; ++i) { funders[i].addr.send(funders[i].amount); FundTransfer(funders[i].addr, funders[i].amount, false); } } /* One way or another, kill the contract and send remaining to beneficiary */ FundTransfer(beneficiary, amountRaised, false); suicide(beneficiary); } }');
+    var crowdsaleCompiled = eth.compile.solidity(' contract token { mapping (address => uint) public coinBalanceOf; function token() {} function sendCoin(address receiver, uint amount) returns(bool sufficient) { } } contract CrowdSale { address public beneficiary; uint public fundingGoal; uint public amountRaised; uint public deadline; uint public price; token public tokenReward; Funder[] public funders; event FundTransfer(address backer, uint amount, bool isContribution); /* data structure to hold information about campaign contributors */ struct Funder { address addr; uint amount; } /* at initialization, setup the owner */ function CrowdSale(address _beneficiary, uint _fundingGoal, uint _duration, uint _price, token _reward) { beneficiary = _beneficiary; fundingGoal = _fundingGoal; deadline = now + _duration * 1 minutes; price = _price; tokenReward = token(_reward); } /* The function without name is the default function that is called whenever anyone sends funds to a contract */ function () { Funder f = funders[++funders.length]; f.addr = msg.sender; f.amount = msg.value; amountRaised += f.amount; tokenReward.sendCoin(msg.sender, f.amount/price); FundTransfer(f.addr, f.amount, true); } modifier afterDeadline() { if (now >= deadline) _ } /* checks if the goal or time limit has been reached and ends the campaign */ function checkGoalReached() afterDeadline { if (amountRaised >= fundingGoal){ beneficiary.send(amountRaised); FundTransfer(beneficiary, amountRaised, false); } else { FundTransfer(0, 11, false); for (uint i = 0; i < funders.length; ++i) { funders[i].addr.send(funders[i].amount); FundTransfer(funders[i].addr, funders[i].amount, false); } } suicide(beneficiary); } }');
 
     var beneficiary = eth.accounts[1];    // create an account for this
     var fundingGoal = web3.toWei(100, "ether"); // raises 100 ether

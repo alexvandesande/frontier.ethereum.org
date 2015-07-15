@@ -22,12 +22,13 @@ The Frontier tool is called Geth (the old english third person singular conjugat
 
 Paste the above one-liner in your terminal for an automated install script. This script will detect your OS and will attempt to install the ethereum CLI. 
 
-* **Other ways to install**
-  * [Linux (using PPA, build from source)](http://ethereum.gitbooks.io/frontier-guide/content/installing_linux.html)
-  * [Mac (Homebrew or build from source)](http://ethereum.gitbooks.io/frontier-guide/content/installing_mac.html)
-  * [Windows (Chocolatey or build from source)](http://ethereum.gitbooks.io/frontier-guide/content/installing_windows.html)
-  * [Docker](http://ethereum.gitbooks.io/frontier-guide/content/using_docker.html)
-  * [Raspberry Pi](https://github.com/ethereum/wiki/wiki/Raspberry-Pi-instructions)
+#### Other platforms and install options:
+
+* [Linux (using PPA, build from source)](http://ethereum.gitbooks.io/frontier-guide/content/installing_linux.html)
+* [Mac (Homebrew or build from source)](http://ethereum.gitbooks.io/frontier-guide/content/installing_mac.html)
+* [Windows (Chocolatey or build from source)](http://ethereum.gitbooks.io/frontier-guide/content/installing_windows.html)
+* [Docker](http://ethereum.gitbooks.io/frontier-guide/content/using_docker.html)
+* [Raspberry Pi](https://github.com/ethereum/wiki/wiki/Raspberry-Pi-instructions)
 
 
 ### Run it
@@ -43,7 +44,26 @@ Tip: Typing **web3** will list all the available packages, fields and functions 
 **ATTENTION: If you just want to test the technology and play around, DON'T USE THE MAIN NETWORK. Read further to find out how to deploy a private test network without spending your ether.**
 
 
-### Alternative ways to running 
+### Connecting to a private test net
+
+Sometimes you might not want to connect to the live public network. Instead, you can choose to create your own private testnet. This is very useful if you don't need to test public contracts and want just to try- or develop on the technology. Since you would be only one mining, you can easily get a lot of ether to test your code. 
+
+    geth --networkid 12345 --genesisnonce 678 --datadir ~/.ethereum_experiment console
+
+Replace 12345 with any random number you want to use as the network ID. Changing the genesis nonce is optional but it's important because if someone accidentally connects to your testnet using the real chain, your local copy will be considered a stale fork and updated to the _"real"_ one. Changing the datadir also changes your local copy of the blockchain, otherwise, in order to successfully mine a block, you would need to mine against the difficulty of the last block present in your local copy of the blockchain - which may take several hours. 
+
+This will prevent anyone who doesn't know your chosen — secret — nonce and network id, from connecting to you or providing you with unwanted data. If you *want* to connect to other peers and create a small private network of multiple computers, you have to help each node find the others. To do that, first you need your Node URL:
+
+    admin.nodeInfo.NodeUrl
+
+Then on the other clients, tell them to add your peer by executing this command:
+
+    admin.addPeer(YOURNODEURL)
+
+You don't need to add all clients to every other, once connected, they will share information about the other node each one is connected to.
+
+
+### Logs 
 
 You'll notice that there are many log entries popping up on your console, sometimes while you type. This is because all the warnings and progress information are logged live by a running node. If you want to save the logs to a file you can see later, use this command:
 
@@ -55,30 +75,12 @@ An better solution however, is to run multiple terminal windows with the logs in
 
 The console has history that persists between sessions. You can navigate your command history by using the up and down arrow keys.
 
+#### Learn More on Running
 
-### Connecting to a private test net
-
-Sometimes you might not want to connect to the live public network. Instead, you can choose to create your own private testnet. This is very useful if you don't need to test public contracts and want just to try- or develop on the technology. Since you would be only one mining, you can easily get a lot of ether to test your code. Any number of people can connect to your test net by simply providing the same network identifier.
- 
-    geth --networkid 12345 console
- 
-*Replace 12345 with any random number you want to use as the network ID.*
-
-If you use a private testnet, it may be a good idea to start with a 'fresh' blockchain, and not the real one. Otherwise, in order to successfully mine a block, you would need to mine against the difficulty of the last block present in your local copy of the blockchain - which may take several hours. This is done via the _--datadir_ CLI argument: 
-
-    geth --networkid 12345 --datadir ~/.ethereum_experiment console
-
-The above command will run Geth on a new private network, with a possibly pristine blockchain from the specified data directory. This chain will however still be compatible with the canonical blockchain, so if someone accidentally connects to your testnet using the real chain, your local copy will be considered a stale fork and updated to the real one. To prevent this, you can make your test chain incompatible by changing the point of origin, the *genesis block*.
-
-    geth --networkid 12345 --genesisnonce 314 --datadir ~/.ethereum_experiment console
-
-This will prevent anyone who doesn't know your chosen - secret - nonce, from connecting to you or providing you with unwanted data.
-
-* **Learn More**
-  * [Backup and restore](http://ethereum.gitbooks.io/frontier-guide/content/backup_restore.html)
-  * [Connecting to the network](http://ethereum.gitbooks.io/frontier-guide/content/connecting.html)
-  * [Monitoring your nodes](http://ethereum.gitbooks.io/frontier-guide/content/netstats.html)
-  * [Setting up a cluster](http://ethereum.gitbooks.io/frontier-guide/content/cluster.html)
+* [Backup and restore](http://ethereum.gitbooks.io/frontier-guide/content/backup_restore.html)
+* [Connecting to the network](http://ethereum.gitbooks.io/frontier-guide/content/connecting.html)
+* [Monitoring your nodes](http://ethereum.gitbooks.io/frontier-guide/content/netstats.html)
+* [Setting up a cluster](http://ethereum.gitbooks.io/frontier-guide/content/cluster.html)
 
 
 ### Creating accounts

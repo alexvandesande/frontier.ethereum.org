@@ -3,6 +3,7 @@
 
 Ether is a necessary element -- a fuel -- for operating the distributed application platform Ethereum. It is a form of payment made by the clients of the platform to the machines executing the requested operations. To put it another way, ether is the incentive ensuring that developers write quality applications (wasteful code costs more), and that the network remains healthy (people are compensated for their contributed resources).
 
+
 Feeling comfortable? Time to get some ether!
 
 **If you just want to test the technology, you probably don't need real ether. [Just deploy a private test net](../geth/) and you will be able get free test ether by mining**.
@@ -12,33 +13,66 @@ Feeling comfortable? Time to get some ether!
 
 ### 1. Mining ether yourself
 
-Mining is the name of the 
+#### CPU MINING
 
-Since you are one of the pioneers, it might be possible to acquire ether by _mining_: contributing your computing and storage resources to the platform in exchange for transaction costs and rewards. You will be competing with other miners in the network to find blocks that fit on top of the existing chain - the state of the platform - claiming the associated prize. You can start your mining operation by opening a Geth console and typing:
+If you are on a [private network](../geth) (and if you just want to test the technology for free, you should) then mining using the CPU is the best choice, as it's less resource intensive. On the real network, this might prove very impractical. Before you do any minining, you need to set which address will receive your earnings (called "etherbase").
 
+    miner.setEtherbase(eth.accounts[0])
 
-Before you can find any blocks however, your computer needs to go through a process called “building a DAG”. This DAG (short for “Directed Acyclic Graph”) is a large data structure (~1GB) required for mining, intended to prevent ASIC machines (“Application Specific Integrated Circuits”) from being mass manufactured for mining ether. Its goal is to protect miners like yourself, so that you will only ever need your home computer to remain competitive. The DAG should take about 10 minutes to generate and as soon as it finishes, Geth will start mining automatically. If at any point you want to see what is going on, you can type:
+Then to begin mining, just type:
 
-    miner.hashrate
- 
-This gives you a rough idea of how much work your computer is doing per second. Now head to the [Network Stats](https://stats.ethdev.com/) page and take a look at the _Difficulty_ value (top right). Dividing that number by your current hashrate will give you an estimate - in seconds - of how long it will take until you successfully mine a block and get some ether. This is an overestimate because it does not take in consideration uncle blocks, but it's a good starting point. You can use this code snippet to do this automatically:
- 
-    Math.floor(10 * eth.getBlock("latest").difficulty / miner.hashrate / 60) / 10 + " Minutes"
+    miner.start() 
+
+Before you can find any blocks however, your computer needs to go through a process called “building a DAG”. This DAG (short for “Directed Acyclic Graph”) is a large data structure (~1GB) required for mining, intended to prevent ASIC machines (“Application Specific Integrated Circuits”) from being mass manufactured for mining ether. Its goal is to protect miners like yourself, so that you will only ever need your home computer to remain competitive. The DAG should take about 10 minutes to generate and as soon as it finishes, Geth will start mining automatically.
 
 If you have successfully mined a block you will see a message like this among the logs:
   
     🔨 Mined block #12345
  
-Your _coinbase_ (sometimes referred to as _etherbase_) is the Ethereum account where your mining rewards are sent. By default it is your primary account. To check your earnings, you can display your balance with:
+To check your earnings, you can display your balance with:
  
     web3.fromWei(eth.getBalance(eth.coinbase), "ether")
 
-*Note: The mining rewards in the Frontier network are only 10% of what they’ll be when the Homestead phase begins. Frontier should be always considered a test network for the Ethereum platform.*
+#### GPU MINING
 
-If you are serious about mining, consider reading up on the current [proof of work](http://ethereum.gitbooks.io/frontier-guide/content/mining.html) and why it is ASIC resistant, about proof of stake, [mining with a CPU](http://ethereum.gitbooks.io/frontier-guide/content/mining_with_geth.html), or starting your [GPU operation](http://ethereum.gitbooks.io/frontier-guide/content/gpu.html). You will find plenty of help on the [official forums](http://forum.ethereum.org/) too.
+This is a summary,  but you can read the [full mining guide here](https://forum.ethereum.org/discussion/197/mining-faq-live-updates).
+
+If you are serious about mining on the live ethereum network and get real ether rewards, then you should use a GPU miner. 
+
+Mining, for the time being, is best left to Linux. We will likely be releasing Windows releases to provide the best support that we can... however we cannot guarantee it. If you must use Windows, using a workaround such as Virtualbox or Vmware is probably recommended for the time being, but this will not be an appropriate mining setup.
+
+Frontier does not make use of Scrypt or Sha256, but instead, it leverages of [EtHash](https://github.com/ethereum/wiki/wiki/Ethash), a Hashimoto / Dagger hybrid. You can read all about the theory behind this and it's design on the [Frontier gitBook, mining chapter](http://ethereum.gitbooks.io/frontier-guide/content/mining.html).
+
+For the Serenity (a future version of Ethereum) release we are planning to switch to PoS.
+
+The algorithm is memory hard, you'll need at least 1+GB of RAM on each GPU. I say 1+ because the DAG, which is the set of data that's being pushed in and out of the GPU to make parallelisation costly, will start at 1GB and will continue growing indefinitely. 2GB should be a good approximation of what's needed to continue mining throughout the year.
+
+Mining prowess roughly scales proportionally to [memory bandwidth](https://en.wikipedia.org/wiki/AMD_Radeon_Rx_200_series#Chipset_table). As our implementation is written in OpenCL, AMD GPUs will be 'faster' than similarly priced NVIDIA GPUs. Empiric evidence has already confirmed this, with R9 290x regularly topping benchmarks. 
+
+ASICs and FPGAs is be strongly discouraged by being rendered financially inefficient, which was confirmed in [an independent audit](https://github.com/LeastAuthority/ethereum-analyses/blob/master/PoW.md#HardwareFeasibility). Don't expect to see them on the market, and if you do, proceed with extreme caution.
+
+There are currently two options for GPU miners available. 
+
+* **Go experimental GPU branch**. It's experimental so you need to build go from source to get it. This version is focused for hobbyist and developers. To install it, [clone geth from source](https://github.com/ethereum/go-ethereum/wiki/Installation-Instructions-for-Ubuntu) and then switch to the [GPU Miner branch](https://github.com/ethereum/go-ethereum/tree/gpuminer)
+
+* **C++ Etherminer**. This is a version for the pro miners. To install it, follow the guide to [install the whole C++ ethereum code](https://github.com/ethereum/cpp-ethereum/wiki/Installing-clients). 
 
 
-### 2. Get ether from a friend
+### 2. Importing from the presale wallet
+
+Before you decide to import your presale ether wallet, please remember that Frontier is a public, live test network. **It is dangerous, potentially full of bugs and is prone to instability.** While all account balances above 1 ether will be moved over to Homestead when it launches, the ether in contracts will not. There are many potential mishaps, ether can be lost, stolen or locked into a broken contract. We strongly advise you to only move funds that you are willing to risk. If you understand the risks and still want to go forward, then importing your presale wallet is very easy.
+
+If you are still on the console, then quit it by pressing _control+C_, then execute this:
+
+    geth wallet import /path/to/my/presale.wallet 
+
+This will prompt for your password and imports your ether presale account. It can be used non-interactively with the _--password_ option taking a password file as argument containing the wallet password in cleartext.
+
+If this does not work, please do not hesitate in contacting us on our [foruns](http://forum.ethereum.org), [reddit](http://reddit.com/r/ethereum) or at **info (at) ethereum.org**.
+
+
+
+### 3. Get ether from a friend
 
 That is by far the easiest way to get ether, but you need to know someone who is willing to give you a hand. If you do have such a friend, then you can send them one of your addresses the the hopes of getting some sweet sweet ether:
 
@@ -47,18 +81,10 @@ That is by far the easiest way to get ether, but you need to know someone who is
 Ether sent to your account should show up almost immediately, transactions being integrated into the system every 12 seconds. Make sure you are in sync with the network, otherwise your local Geth will not know about the transfer.
 
 
-### 3. Importing from the presale wallet
-
-Before you decide to import your presale ether wallet, please remember that Frontier is a public, live test network. **It is dangerous, potentially full of bugs and is prone to instability.** While all account balances above 1 ether will be moved over to Homestead when it launches, the ether in contracts will not. There are many potential mishaps, ether can be lost, stolen or locked into a broken contract. We strongly advise you to only move funds that you are willing to risk. If you understand the risks and still want to go forward, then importing your presale wallet is very easy:
-
-    geth wallet import /path/to/my/presale.wallet 
-
-This will prompt for your password and imports your ether presale account. It can be used non-interactively with the _--password_ option taking a password file as argument containing the wallet password in cleartext.
-
 
 ## Sending your first transaction
 
-There are two types of accounts in Ethereum: *normal accounts*, holding ether that can only be moved with a private key and *contracts*, which hold ether only controlled by their own internal code. In this section we focus on the former and dedicate an entire page for the latter.
+There are two types of accounts in Ethereum: *normal accounts*, holding ether that can only be moved with a private key and *contracts*, which hold ether only controlled by their own internal code. In this section we focus on the former. The remainder of this guide will be dedicated an entire page for the latter.
 
 Similarly, your transactions are also of two types: those sent to normal accounts are *ether transfers*, while the rest are *communication* with smart contracts.
 
@@ -81,9 +107,6 @@ Waiting a few seconds, the transaction should be complete. To check the balance 
 
     eth.getBalance(eth.accounts[0])
 
-
-
-*Try it yourself: tweak this JavaScript function to make it show another unit, like “finney”.*
 
 ### Transaction Receipts
 

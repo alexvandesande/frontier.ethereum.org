@@ -400,6 +400,10 @@ h3 strong {
 
 .inner-tutorial h4  {
 	color: #682615;
+	padding: 20px 20px 0;
+	font-family: 'Source Sans Pro', 'Helvetica Neue', 'Helvetica', arial,  sans-serif;
+	text-transform: uppercase;
+	font-weight: 800;
 }
 
 .inner-tutorial h5 {
@@ -505,7 +509,7 @@ a.button:hover {
 .breadcrumb a {
 	padding: 0 5px;
 	font-family: 'Source Sans Pro', 'Helvetica Neue', 'Helvetica', arial,  sans-serif;
-		text-transform: uppercase;
+	text-transform: uppercase;
 }	
 
 .breadcrumb a.index {
@@ -976,7 +980,7 @@ figure.ethereum-logo {
 	right: 0;
 	bottom: 0;
 	width: 100px;
-	background: linear-gradient(to right, transparent, #fff);
+	background: linear-gradient(to right, rgba(255,255,255,0), #fff);
 }
 
 code {
