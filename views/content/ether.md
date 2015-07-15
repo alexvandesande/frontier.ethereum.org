@@ -11,11 +11,17 @@ Feeling comfortable? Time to get some ether!
 
 ## Get Ether
 
-### 1. Mining ether yourself
+### 1. Earn it by helping run the network
+
+The ethereum network kept running by computers all over the world. In order to reward the computational costs of both processing the contracts and securing the network, there is a reward that is given for the computer who was able to create the latest block on the chain. Every 12 seconds, in average, a new block is added to the blockchain with the latest transactions and the computer that was generated it will be given 5 ether. Due to the nature of the algorithm for block generating, this process is guaranteed to be random and rewards are given in proportion to the computational power of each machine. 
+
+This process is usually called **_mining_** in the crypto-currency lingo.
 
 #### CPU MINING
 
-If you are on a [private network](../geth) (and if you just want to test the technology for free, you should) then mining using the CPU is the best choice, as it's less resource intensive. On the real network, this might prove very impractical. Before you do any minining, you need to set which address will receive your earnings (called "etherbase").
+If you are on a [private network](../geth) (and if you just want to test the technology for free, you should) then any normal computer with a normal CPU will be able to run the network and earn test ether (ether that is only redeemable on the test network where it was generated). This is a the best choice for small scale network or testing privately, as it's less resource intensive. On the real network however, a normal desktop (or laptop) computer might prove very impractical. 
+
+Before you do any minining, you need to set which address will receive your earnings (called "etherbase").
 
     miner.setEtherbase(eth.accounts[0])
 
@@ -37,7 +43,7 @@ To check your earnings, you can display your balance with:
 
 This is a summary,  but you can read the [full mining guide here](https://forum.ethereum.org/discussion/197/mining-faq-live-updates).
 
-If you are serious about mining on the live ethereum network and get real ether rewards, then you should use a GPU miner. 
+If you are serious about mining on the live ethereum network and get real ether rewards, then you should use a dedicated computer with very powerful graphic cards in order to run the network. 
 
 Mining, for the time being, is best left to Linux. We will likely be releasing Windows releases to provide the best support that we can... however we cannot guarantee it. If you must use Windows, using a workaround such as Virtualbox or Vmware is probably recommended for the time being, but this will not be an appropriate mining setup.
 
@@ -72,7 +78,22 @@ If this does not work, please do not hesitate in contacting us on our [foruns](h
 
 
 
-### 3. Get ether from a friend
+### 3. Use Bitcoins
+
+![bitcoin and ethereum](images/bitcoin-and-ethereum-sitting-on-a-tree@2x.png)
+
+Ethereum would never be possible without bitcoin—both the technology and the currency—and it sees itself not as a competiting currency but as complementary to the digital ecossystem. Ether is to be treated as "crypto-fuel", a token whose purpose is to pay for computation, and is not intended to be used as or considered a currency, asset, share or anything else.
+
+There are many ways in which you can use Bitcoins within the Ethereum ecossystem:
+
+* **Trade BTC for ETH:** we are working with multiple exchanges to make the exchanging of ether and bitcoins as easy and seamless as possible. If so desired one could trade a bitcoins for ether with the purpose of executing contracts and trade it back immediately in order to keep their value pegged and secured by the butcoin network. As those exchanges go live, we will list them here.
+
+* **Use a pegged derivative:** Ethereum is a great tool for creating complex trading between multiple parties. If you have a source for the price of Bitcoin that all parties trust, then it's possible to create an [ethereum based currency](../token) whose value is pegged to the market value of Bitcoin. This means that you could trade a btc to a token that is guaranteed to always trade back to the same amount of bitcoins while still being fully compatible with other ethereum contracts. There are multiple ways of doing that and as some of these projects go live and are tested by the community, we will list them here.
+
+* **Use a Bitcoin relay to convert a 2 way peg**: [the bitcoin relay](https://github.com/ethereum/btcrelay/) is a piece of code that allows you to sidechain a bitcoin into ethereum. This means that you can use bitcoin native limited scripting capability to lock a bitcoin into a contract that is directly connected to an ethereum contract, which can then issue an ethereum based token that is guaranteed to be backed by bitcoin. The relay is under development and as implementations are tested and proved to be secure, we will list them here.
+
+
+### 4. Get ether from a friend
 
 That is by far the easiest way to get ether, but you need to know someone who is willing to give you a hand. If you do have such a friend, then you can send them one of your addresses the the hopes of getting some sweet sweet ether:
 

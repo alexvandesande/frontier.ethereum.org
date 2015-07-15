@@ -1,20 +1,6 @@
 
 The Ethereum Foundation is a non-profit organization registered in Switzerland, and has the purpose of managing the funds that were raised from the Ether Sale in order to best serve the Ethereum and decentralized technology ecosystem.
 
-To that end, aside from its expenditures supporting Ethereum development, the Ethereum Foundation is also participating in a number of industry collaboration efforts.
+Founded July 2014 in Switzerland, Stiftung Ethereum’s mission is the promotion of developments of new technologies and applications, especially in the fields of new open and decentralized software architectures. 
 
-
-
-### W3C Payments group
-
-
-Ethereum is participating in the [W3C Payments Group](http://www.w3.org/blog/wpig/2015/02/19/web-payments-ig-meeting-in-utrecht-getting-my-feet-wet-and-moving/) with a view to making sure that the ongoing standardization work keeps open space in the specs for current and future work on non-repudiatable payments, cryptocurrencies and even smart contracts. The W3C Payments Group is a moderately large, diverse working group with a variety of interests from the technology, finance and fintech sectors, with a strong interest in user privacy and security. 
-
-These are primary goals of the group because there are the areas where the web's current payment solutions are weakest: large scale credit card fraud is a major driver here. We anticipate further involvement in the group will be fruitful and productive. We are still learning how the W3C standards process works, it's a complex organization with lots of history, but we hope to be able to make sure that future specs in this area are supportive of our needs and the needs of other players in the cryptocurrency and cyberfinance space.
-
-
-### Legal collaboration
-
-The Ethereum Foundation is participating in and contributing, both financially and with the active involvement of our members, to a number of efforts involved in legal and regulatory outreach for the benefit of the cryptocurrency space. We proudly support the [Coin Center](https://coincenter.org/), a non-profit organization based in Washington dedicated to researching the legal implications of cryptocurrency and engaging in policy advocacy efforts, as well as other efforts that will soon be revealed.
-
-
+It is the aim that decentralized and open technologies will be developed, nurtured, promoted and maintained. A dominating but not exclusive focus is set on the promotion of the development of the Ethereum Protocol and the relevant technology to it as well as the promotion and support of applications using the technology Ethereum or the Protocol. Stiftung Ethereum will additionally support and advocate for a decentralized Internet in a variety of forms.
